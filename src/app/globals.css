@@ -1,26 +1,218 @@
 @import "tailwindcss";
 
+/* ─── Design Tokens ────────────────────────────────────────────────────────── */
+@theme {
+  --color-white:     #FFFFFF;
+  --color-alabaster: #F5F2EB;
+  --color-sand:      #FAF8F5;
+  --color-cream:     #F7F4EE;
+  --color-coffee:    #3C2816;
+  --color-walnut:    #4E3C2B;
+  --color-espresso:  #24170D;
+  --color-gold:      #C5A880;
+  --color-gold-dark: #A9875A;
+  --color-gold-light:#E6D5C0;
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-h1: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-h2: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-p:  var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-body:    var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Root variables ───────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --nav-h: 80px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (max-width: 1023px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --nav-h: 64px;
   }
 }
 
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #FFFFFF;
+  color: #3C2816;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  overflow-x: clip;
+  margin: 0;
+  padding: 0;
+  font-style: normal;
+}
+
+* {
+  font-style: normal;
+}
+
+h1 {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  font-style: normal;
+}
+
+h2 {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-style: normal;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-style: normal;
+}
+
+p, span, li, a, button, input, select, textarea {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+.font-h1, .font-h2, .font-p {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif !important;
+}
+
+/* ─── Focus ring ───────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid #3C2816;
+  outline-offset: 3px;
+}
+
+/* ─── Glass card, panel & pill styling with dark coffee fallback ─────────── */
+.glass-panel {
+  background: rgba(60, 40, 22, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.38);
+}
+@supports (backdrop-filter: blur(24px)) or (-webkit-backdrop-filter: blur(24px)) {
+  .glass-panel {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(60, 40, 22, 0.42) 100%);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+  }
+}
+
+.glass-card {
+  background: rgba(60, 40, 22, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.38);
+}
+@supports (backdrop-filter: blur(24px)) or (-webkit-backdrop-filter: blur(24px)) {
+  .glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(60, 40, 22, 0.42) 100%);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+  }
+}
+
+.glass-pill {
+  background: rgba(60, 40, 22, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), inset 0 1px 1px 0 rgba(255, 255, 255, 0.3);
+}
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+  .glass-pill {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(60, 40, 22, 0.42) 100%);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+  }
+}
+
+.glass-input {
+  background-color: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 8px;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+  color-scheme: dark;
+}
+.glass-input:hover {
+  background-color: rgba(255, 255, 255, 0.20);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+.glass-input:focus {
+  background-color: rgba(255, 255, 255, 0.24);
+  border-color: #FFFFFF;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+
+/* ─── Glass card form fields – dark colour-scheme for date pickers ─────────── */
+.glass-field {
+  color-scheme: dark;
+}
+
+/* ─── Custom scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFFFFF;
+}
+::-webkit-scrollbar-thumb {
+  background: #3C2816;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4E3C2B;
+}
+
+/* ─── Skip link ────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 9999;
+  background: #3C2816;
+  color: #FFFFFF;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+  text-decoration: none;
+}
+.skip-link:focus {
+  transform: translateY(0);
 }
